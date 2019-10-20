@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+    <script type="text/javascript" src='js/vue.js'></script>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        /*微信*/
+        #wx{
+            display: grid;
+            grid-template-columns: 100px  350px 1fr;
+        }
+        
+        /*侧边栏*/
+        #fixed{
+            position: fixed;
+        }
+        #wx_aside{
+            background-color: lightslategray;
+            text-align: center;
+        }
+		#wx_aside img:hover{
+			cursor: pointer;
+		}
+        #wx_aside #fixed img{
+            height: 60px;
+            width: 60px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: 20px;
+        }
+        /*main --->  search*/
+        #main_search{
+            display: grid;
+            grid-template-columns: 80%;
+            align-content: center;
+            justify-content: center;
+            position: fixed;
+            height: 100px;
+            background-color: rgb(218, 218, 218);
+            width:350px;
+        }
+        #main_search div{
+            display: grid;
+            grid-template-rows: 40px;
+            grid-template-columns: 82% 40px;
+            justify-content: space-between;
+
+        }
+        #main_search div input,#main_search div span{
+            border: 2px solid lightsteelblue;
+            font-size: 30px;
+            line-height: 30px;
+        }
+        #main_search div input:hover,#main_search div span:hover{
+            border: 2px solid rgb(87, 91, 95);
+        }
+        hover,#main_search div span:hover{
+            cursor: pointer;
+            background-color: rgb(87, 91, 95);
+            color: white;
+        }
+        #main_search div span{
+            text-align: center;
+            height: 40px;
+        }
+        #placeholder{
+            height: 100px;
+        }
+        /*组件--联系人模板-->样式*/
+        #main_linkman{
+            height: 793px;
+            overflow: auto;
+        }
+        #placeholder{
+            height: 100px;
+        }
+        .linkman_item{
+            height: 100px;
+            display: grid;
+            align-content: center;
+        }
+        .linkman_item:hover,.linkman_list_item:hover{
+            border: 1px solid rgb(226, 226, 226);
+            background-color: rgb(245, 245, 245);
+        }
+        .linkman_item div{
+            width: 80%;
+            height: 100%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 60px 5fr 1fr;
+            grid-template-rows: 30px 30px;
+            grid-auto-flow: column;
+            grid-column-gap: 10px;
+        }
+        .linkman_item div img:first-child{
+            width: 60px;
+            height: 60px;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            align-self: center;
+        }
+        .linkman_item div img:last-child{
+            width: 15px;
+            height: 15px;
+            align-self: end;
+            justify-self: end;
+        }
+        .title{
+            font-size: 26px;
+            justify-self: start;
+            align-self: start;
+        }
+        .message,.time{
+            font-size: 16px;
+            color: lightslategray;
+        }
+        .message{
+            justify-self: start;
+            align-self: end;
+        }
+        .time{
+            justify-self: end;
+            align-self: start;
+        }
+        /*chat frame*/
+        #chat_frame{
+            display: grid;
+            grid-template-rows: 1fr 40px 200px;
+        }
+        #chat_frame div{
+            border: 1px solid black;
+        }
+        #talkabout textarea{
+            height: 90%;
+            margin: 10px 0px 0px 10px;
+            width: 90%;
+            border: none;
+            font-size: 30px;
+        }
+		
+		#linkman_list,.linkman_list_item{
+			width: 100%;
+		}
+		#linkman_list{
+			overflow: scroll;
+			height: 793px;
+		}
+		.linkman_list_item div{
+			width: 80%;
+			display: grid;
+			grid-template-columns:60px auto;
+			grid-column-gap:20px;
+			align-content: center;
+			margin: auto;
+			height: 100px;
+		}
+		.linkman_list_item  div img{
+			height: 60px;
+			width: 60px;
+		}
+		.linkman_list_item div p{
+			align-self: center;
+		}
+    </style>
+</head>
+<body>
+	<div id="app">
+        <div id="wx">
+            <!--侧边栏-->
+            
+            <div id="wx_aside">
+                <div id="fixed">
+                <img src="img/Email.png" alt="picture be lost" id="aside_img_one">
+                <img src="img/Email.png" alt="picture be lost" id="aside_img_two" @click="changeToggleT()">
+                <img src="img/Email.png" alt="picture be lost" id="aside_img_three" @click="changeToggleF()">
+            </div>
+            </div>
+			
+            <!--main-->
+            <div id="wx_main" >
+                <div id="main_search">
+                    <div>
+                        <input type="search">
+                        <span>+</span>
+                    </div>
+                </div>
+                <div id="main_linkman" v-if="toggle">
+                    <div id="placeholder"></div>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                    <link-man :title="title" :message="message" :time="time"></link-man>
+                </div>
+				<!--联系人列表-->
+				<div id="linkman_list" v-if="!toggle">
+					<div id="placeholder"></div>
+					<link-man-list :title="title" v-for="title in titleList"></link-man-list>
+				</div>
+            </div>
+            <!--chat frame-->
+            <div id="chat_frame" v-if="toggle">
+                <div></div>
+                <div></div>
+                <div id='talkabout'>
+                    <textarea ></textarea>
+                </div>
+            </div>
+			
+			
+			<!--联系人详情-->
+			<div id="linkman_details">
+				
+			</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    Vue.component('link-man',{
+    template:`
+    <div class="linkman_item">
+        <div>
+            <img src="img/Email.png" alt="picture be lost">
+            <p class="title">{{title}}</p>
+            <p class="message">{{message}}</p>
+            <p class="time">{{time}}</p>
+            <img src="img/Email.png" alt="picture be lost">
+        </div>
+     </div>
+    `,
+    props:['title','message','time'],
+	});
+	
+	Vue.component('link-man-list',{
+	template:`
+	<div class="linkman_list_item">
+	    <div>
+	        <img src="img/Email.png" alt="picture be lost">
+	        <p class="title">{{title.title}}</p>
+	    </div>
+	 </div>
+	`,
+	props:['title'],
+	});
+	var vm=new Vue({
+		el:"#app",
+		data:{
+			message:'message',
+            title:'title',
+            time:'2:10',
+			toggle:true,
+			titleList:[
+				{title:'title1'},
+				{title:'title2'},
+				{title:'title3'},
+				{title:'title4'},
+				{title:'title5'},
+				{title:'title6'},
+				{title:'title7'},
+				{title:'title8'},
+				{title:'title9'},
+			],
+		},
+		methods:{
+			changeToggleT(){
+				this.toggle=true;
+			},
+			changeToggleF(){
+				this.toggle=false;
+			},
+		}
+	});
+</script>
+</html>
